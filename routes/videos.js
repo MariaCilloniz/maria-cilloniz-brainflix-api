@@ -20,6 +20,26 @@ router.get('/:id', (req, res) => {
     res.json(video);
 });
 
+router.post('/:id/comments', (req, res) => {
+    const videos = JSON.parse(fs.readFileSync('./data/videos.json', 'utf8'));
+    const video = videos.find(video => video.id === req.params.id);
+    if (!video) {
+        return res.status(404).json({ error: 'Video not found' });
+    }
+    const newComment = {
+        id: uuidv4(),
+        name: req.body.name,
+        comment: req.body.comment,
+        likes: 0,
+        timestamp: Date.now()
+    };
+
+    video.comments.unshift(newComment);
+    fs.writeFileSync('./data/videos.json', JSON.stringify(videos));
+    res.status(201).json(newComment);
+});
+
+
 router.post('/', (req, res) => {
     const videos = JSON.parse(fs.readFileSync('./data/videos.json', 'utf8'));
 
@@ -61,7 +81,7 @@ router.post('/', (req, res) => {
 
     videos.push(newVideo);
 
-    fs.writeFileSync('./data/videos.json', JSON.stringify(videos, null, 2));
+    fs.writeFileSync('./data/videos.json', JSON.stringify(videos));
 
     res.status(201).json(newVideo);
 });
