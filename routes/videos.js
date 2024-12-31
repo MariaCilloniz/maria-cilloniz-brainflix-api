@@ -48,7 +48,7 @@ router.post('/', (req, res) => {
         title: req.body.title,
         description: req.body.description,
         channel: "Maria Cilloniz",
-        image: "http://localhost:3001/images/image0.jpg",
+        image: "https://brainflix-front-end-f17590ab5cac.herokuapp.com/images/image0.jpg",
         views: "221,330",
         likes: "11,900",
         duration: "3:00",
